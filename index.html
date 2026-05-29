@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v6</title>
+  <title>Ferra · Home v6 — build 12</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -1393,6 +1393,17 @@
     }
     #fs-hint .sub { color: #aaa; font-weight: 400; font-size: 14px; margin-top: 10px; }
     #fs-hint .dot { color: #E97A2F; }
+    #fs-hint .ver {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-weight: 500;
+      font-size: 13px;
+      color: #888;
+      letter-spacing: 0.05em;
+      font-variant-numeric: tabular-nums;
+    }
+    #fs-hint .ver b { color: #E97A2F; font-weight: 600; }
     #fs-hint .share-ico {
       display: inline-block; vertical-align: -3px;
       width: 18px; height: 18px;
@@ -1409,10 +1420,12 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+      var PREVIEW_VERSION = 'v12';
+      var verLine = '<div class="ver">Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
         box.innerHTML =
           'Tap to start <span class="dot">.</span>' +
-          '<div class="sub">Begin animation</div>';
+          '<div class="sub">Begin animation</div>' + verLine;
         document.addEventListener('click', armAndDismiss, true);
         document.addEventListener('touchend', armAndDismiss, true);
         return;
@@ -1423,14 +1436,14 @@
           'Tap <svg class="share-ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
           '<path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>' +
           ' Share &rarr; "Add to Home Screen"' +
-          '<div class="sub">Then launch it from the home icon. Tap anywhere to dismiss this hint.</div>';
+          '<div class="sub">Then launch it from the home icon. Tap anywhere to dismiss this hint.</div>' + verLine;
         document.addEventListener('click', armAndDismiss, true);
         document.addEventListener('touchend', armAndDismiss, true);
         return;
       }
       box.innerHTML =
         'Tap anywhere for fullscreen <span class="dot">.</span>' +
-        '<div class="sub">Hides browser bar &amp; system nav</div>';
+        '<div class="sub">Hides browser bar &amp; system nav</div>' + verLine;
       document.addEventListener('click', goFullscreen, true);
       document.addEventListener('touchend', goFullscreen, true);
       function goFullscreen() {
