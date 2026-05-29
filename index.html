@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v6 — build v13</title>
+  <title>Ferra · Home v6 — build v14</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -758,8 +758,9 @@
     .content {
       overflow-y: auto !important;
       -webkit-overflow-scrolling: touch;
-      justify-content: space-between;
     }
+    /* Keep header/week/habit tight at top; let only the exercise deck float to the bottom */
+    .content > .ex-section { margin-top: auto; }
 
     /* ===== Animation gate ===== */
     body:not(.armed) .habit-fill {
@@ -1420,7 +1421,7 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v13';
+      var PREVIEW_VERSION = 'v14';
       var verLine = '<div class="ver">Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
         box.innerHTML =
