@@ -544,6 +544,14 @@
       background: var(--ember);
     }
     .ferra-mark .dot.off { background: transparent; }
+    /* ===== Animation gate ===== */
+    body:not(.armed) .habit-fill {
+      animation: none !important;
+      transform: scaleX(0);
+    }
+    body:not(.armed) .habit-row .heart-ico.beating svg {
+      animation: none !important;
+    }
   
     /* ===== Fullscreen-on-real-phone overrides ===== */
     html, body {
@@ -733,7 +741,7 @@
                 <p id="coachLine" aria-label="Halfway there. Two more sessions and the week is yours."></p>
               </div>
               <div class="turtle-wrap">
-                <video class="turtle-coach" src="assets/turtle-try6.mp4" autoplay muted playsinline aria-label="Coach turtle celebrating"></video>
+                <video class="turtle-coach" src="assets/turtle-try6.mp4" muted playsinline preload="auto" aria-label="Coach turtle celebrating"></video>
               </div>
             </div>
           </div>
@@ -782,7 +790,7 @@
   </div>
 
   <script>
-    (function () {
+    function ferraAnims() {
       var el = document.getElementById('coachLine');
       if (!el) return;
       var heart = document.querySelector('.habit-row .heart-ico');
@@ -840,7 +848,8 @@
       } else {
         setTimeout(begin, 1120);
       }
-    })();
+    }
+    document.addEventListener('ferra:armed', ferraAnims, { once: true });
   </script>
 
   <style>
@@ -880,7 +889,14 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      if (inStandalone) { hint.parentNode.removeChild(hint); return; }
+      if (inStandalone) {
+        box.innerHTML =
+          'Tap to start <span class="dot">.</span>' +
+          '<div class="sub">Begin animation</div>';
+        document.addEventListener('click', armAndDismiss, true);
+        document.addEventListener('touchend', armAndDismiss, true);
+        return;
+      }
       if (isIOS) {
         box.innerHTML =
           'For fullscreen on iPhone <span class="dot">.</span><br>' +
@@ -888,8 +904,8 @@
           '<path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>' +
           ' Share &rarr; "Add to Home Screen"' +
           '<div class="sub">Then launch it from the home icon. Tap anywhere to dismiss this hint.</div>';
-        document.addEventListener('click', dismiss, true);
-        document.addEventListener('touchend', dismiss, true);
+        document.addEventListener('click', armAndDismiss, true);
+        document.addEventListener('touchend', armAndDismiss, true);
         return;
       }
       box.innerHTML =
@@ -904,7 +920,17 @@
         if (screen.orientation && screen.orientation.lock) {
           try { screen.orientation.lock('portrait').catch(function(){}); } catch (e) {}
         }
+        arm();
         dismiss();
+      }
+      function armAndDismiss() { arm(); dismiss(); }
+      function arm() {
+        if (document.body.classList.contains('armed')) return;
+        document.body.classList.add('armed');
+        // Kick off the video inside the user gesture so iOS allows playback.
+        var v = document.querySelector('.turtle-coach');
+        if (v) { try { v.play().catch(function(){}); } catch (e) {} }
+        document.dispatchEvent(new Event('ferra:armed'));
       }
       function dismiss() {
         hint.classList.add('hide');
@@ -914,7 +940,8 @@
         document.removeEventListener('click', dismiss, true);
         document.removeEventListener('touchend', dismiss, true);
       }
-    })();
+    }
+    document.addEventListener('ferra:armed', ferraAnims, { once: true });
   </script>
 </body>
 </html>
