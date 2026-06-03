@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v3 — build v19</title>
+  <title>Ferra · Home v3 — build v20</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -419,35 +419,35 @@
     /* The circular chevron buttons */
     .ex-nav-btn {
       position: absolute;
-      top: 102px;            /* vertically centred over the 240px image */
-      width: 44px;
-      height: 44px;
+      top: 96px;             /* vertically centred over the 240px image */
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgba(10, 10, 10, 0.62);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(180deg, #F2933F 0%, #D8691F 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
       display: grid;
       place-items: center;
       color: #fff;
       cursor: pointer;
       z-index: 4;
       padding: 0;
-      transition: opacity .18s ease, transform .12s ease, background .15s;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      transition: opacity .18s ease, transform .12s ease, filter .15s;
+      box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55),
+                  0 2px 6px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
-    .ex-nav-btn:hover { background: rgba(20, 20, 20, 0.75); }
+    .ex-nav-btn:hover { filter: brightness(1.08); }
     .ex-nav-btn:active { transform: scale(0.92); }
-    .ex-nav-btn svg { width: 22px; height: 22px; }
-    .ex-nav-btn.prev { left: 10px; }
-    .ex-nav-btn.next { right: 10px; }
-    /* The next arrow gently pulses once or twice to attract attention */
+    .ex-nav-btn svg { width: 24px; height: 24px; stroke: #fff; }
+    .ex-nav-btn.prev { left: 12px; }
+    .ex-nav-btn.next { right: 12px; }
+    /* The next arrow continually pulses (until armed -> still pulses; stops once user taps it) */
     .ex-nav-btn.next {
-      animation: nextPulse 1600ms ease-in-out 600ms 3 both;
+      animation: nextPulse 1500ms ease-in-out 700ms infinite both;
     }
     @keyframes nextPulse {
-      0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 0 rgba(233,122,47,0); }
-      50%      { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 10px rgba(233,122,47,0.18); }
+      0%, 100% { box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55), 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25), 0 0 0 0 rgba(233,122,47,0.45); }
+      50%      { box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55), 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25), 0 0 0 14px rgba(233,122,47,0); }
     }
     body:not(.armed) .ex-nav-btn.next { animation: none; }
     .ex-nav-btn.hidden {
@@ -851,7 +851,7 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v19';
+      var PREVIEW_VERSION = 'v20';
       var DESIGN_VERSION = 'v3';
       var verLine = '<div class="ver">Design <b>' + DESIGN_VERSION + '</b> · Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
@@ -923,8 +923,9 @@
         next.classList.toggle('hidden', idx === cards.length - 1);
       }
 
-      prev.addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
-      next.addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+      function stopPulse() { next.style.animation = 'none'; }
+      prev.addEventListener('click', function (e) { e.stopPropagation(); stopPulse(); show(idx - 1); });
+      next.addEventListener('click', function (e) { e.stopPropagation(); stopPulse(); show(idx + 1); });
 
       // Touch swipe — bonus affordance for users who do swipe
       var sx = null, sy = null;
