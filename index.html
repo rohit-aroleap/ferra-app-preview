@@ -8,830 +8,89 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v3 — build v23</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <title>Ferra · Compare v3 / v6 — build v24</title>
   <style>
-    :root {
-      --bg: #0A0A0A;
-      --surface: #1C1C1E;
-      --surface-2: #2A2A2C;
-      --line: rgba(255,255,255,0.08);
-      --fg: #FFFFFF;
-      --fg-muted: #A8A8A8;
-      --fg-subtle: #6E6E6E;
-      --ember: #E97A2F;
-      --ember-bright: #F58A3D;
-      --ember-soft: rgba(233,122,47,0.18);
-      --done: #1FBA4C;
-      --done-deep: #169a3c;
-      --miss: #6C2622;
-      --font-body: "Barlow", -apple-system, system-ui, sans-serif;
-      --font-display: "Barlow Condensed", "Barlow", -apple-system, system-ui, sans-serif;
-    }
-
     html, body {
       margin: 0; padding: 0;
-      background: #1a1a1d;
-      min-height: 100vh;
-      font-family: var(--font-body);
-      color: var(--fg);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .stage {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 32px 16px;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% 0%, #2a2a30 0%, #1a1a1d 60%);
-    }
-
-    /* ---------- Phone bezel ---------- */
-    .phone {
-      position: relative;
-      width: 402px;
-      height: 850px;
-      border-radius: 54px;
-      background: #0A0A0A;
-      box-shadow:
-        0 0 0 2px #1c1c1f,
-        0 0 0 10px #2a2a2d,
-        0 0 0 11px #0e0e10,
-        0 60px 120px rgba(0,0,0,0.5);
-      overflow: hidden;
-      font-family: var(--font-body);
-    }
-    .phone .island {
-      position: absolute;
-      top: 11px; left: 50%; transform: translateX(-50%);
-      width: 124px; height: 36px;
-      border-radius: 22px;
-      background: #000;
-      z-index: 50;
-    }
-    .phone .island::after {
-      content: "";
-      position: absolute;
-      top: 50%; right: 18px;
-      transform: translateY(-50%);
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #0F0F12;
-      box-shadow: inset 0 0 0 1px #1a1d22, 0 0 0 1px rgba(40,80,120,0.4);
-    }
-    .phone .home-indicator {
-      position: absolute;
-      bottom: 8px; left: 50%; transform: translateX(-50%);
-      width: 134px; height: 5px;
-      border-radius: 100px;
-      background: rgba(255,255,255,0.95);
-      z-index: 60;
-    }
-
-    /* ---------- iOS Status bar ---------- */
-    .status-bar {
-      position: relative;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 30px 8px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 17px;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.01em;
-    }
-    .status-bar .right {
-      display: flex; align-items: center; gap: 6px;
-    }
-
-    /* ---------- App content ---------- */
-    .screen {
-      position: absolute;
-      inset: 0;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .content {
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-      padding: 18px 22px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-
-    /* ---------- Header ---------- */
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding-top: 22px;
-    }
-    .header .greeting {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-    .header .greeting .name {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 28px;
-      line-height: 1;
-      letter-spacing: -0.025em;
-      color: #fff;
-      white-space: nowrap;
-    }
-    .streak-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 16px 7px 12px;
-      background: rgba(233, 122, 47, 0.10);
-      border: 1px solid rgba(233, 122, 47, 0.28);
-      border-radius: 999px;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 16px;
-      letter-spacing: -0.01em;
-      line-height: 1;
-      color: rgba(255,255,255,0.92);
-    }
-    .streak-pill .count {
-      color: var(--ember);
-      font-weight: 600;
-      font-size: 16px;
-      font-variant-numeric: tabular-nums;
-    }
-    .streak-pill svg {
-      width: 22px; height: 22px;
-      flex-shrink: 0;
-    }
-    .menu-btn {
-      background: transparent;
-      border: none;
-      padding: 4px;
-      color: #fff;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-    }
-    .menu-btn svg { width: 26px; height: 26px; }
-
-    /* ---------- Section ---------- */
-    .section-title {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 18px;
-      color: #fff;
-      margin: 0;
-      letter-spacing: -0.02em;
-      line-height: 1;
-    }
-    .section-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    /* ---------- Week strip ---------- */
-    .week-card {
-      background: #1F1F22;
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 14px;
-      padding: 12px 8px 14px;
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
-    }
-    .day {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .day .dow {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 13px;
-      color: #fff;
-      letter-spacing: 0.02em;
-    }
-    .day.today .dow { color: var(--ember); }
-    .day.future .dow,
-    .day.future .cell { color: var(--fg-muted); }
-
-    .cell {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 12px;
-      font-variant-numeric: tabular-nums;
-    }
-    .cell.miss {
-      background: #26262A;
-      color: #6E6E6E;
-    }
-    .cell.miss svg { width: 12px; height: 12px; }
-    .cell.done {
-      background: var(--ember);
-      color: #0A0A0A;
-    }
-    .cell.done svg { width: 14px; height: 14px; stroke: #0A0A0A; }
-    .cell.future {
-      background: transparent;
-      border: 1px solid #3A3A3D;
-      color: #B3B3B3;
-    }
-    .day.today .cell {
-      box-shadow: 0 0 0 2px #0A0A0A, 0 0 0 4px var(--ember);
-    }
-
-    /* ---------- Habit score ---------- */
-    .habit-score {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .habit-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .habit-row .label-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .habit-row .heart-ico {
-      display: grid;
-      place-items: center;
-      color: #E23C3C;
-    }
-    .habit-row .heart-ico svg {
-      width: 20px;
-      height: 20px;
-      transform-origin: center;
-      animation: heartbeat 1500ms ease-in-out 1050ms infinite both;
-    }
-    @keyframes heartbeat {
-      0%   { transform: scale(1); }
-      10%  { transform: scale(1.22); }
-      22%  { transform: scale(1); }
-      100% { transform: scale(1); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .habit-fill, .habit-row .heart-ico svg { animation: none; }
-    }
-    .habit-label {
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 15px;
-      color: var(--fg-muted);
-      letter-spacing: -0.005em;
-    }
-    .habit-pct {
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 15px;
-      color: #fff;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.005em;
-    }
-    .habit-track {
-      position: relative;
-      flex: 1;
-      min-width: 0;
-      height: 12px;
-      background: #2A2A2C;
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .habit-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .habit-bar-row .trophy {
-      flex-shrink: 0;
-      display: grid;
-      place-items: center;
-      color: var(--ember);
-    }
-    .habit-bar-row .trophy svg {
-      width: 20px;
-      height: 20px;
-    }
-    .habit-fill {
-      height: 100%;
-      width: 50%;
-      background: linear-gradient(90deg, #EC8237 0%, #E97A2F 100%);
-      border-radius: 999px;
-      transform-origin: left center;
-      animation: fillGrow 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both;
-    }
-    @keyframes fillGrow {
-      from { transform: scaleX(0); }
-      to   { transform: scaleX(1); }
-    }
-
-    /* ---------- Exercise card ---------- */
-    .exercise-card {
-      background: #232326;
-      border-radius: 22px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .exercise-card .img {
-      height: 240px;
-      position: relative;
-      background: #2a2a2d;
-      overflow: hidden;
-    }
-    .exercise-card .img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .exercise-card .img .placeholder {
-      position: absolute; inset: 0;
-      display: grid; place-items: center;
-      color: var(--fg-subtle);
-      font-size: 12px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .exercise-card .label {
-      padding: 12px 18px 4px;
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 18px;
-      color: #fff;
-      letter-spacing: -0.005em;
-    }
-    .exercise-card .cta {
-      margin: 8px 12px 12px;
-      background: linear-gradient(180deg, #EC8237 0%, #D86A22 100%);
-      color: #fff;
-      border: none;
-      border-radius: 14px;
-      padding: 16px;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 18px;
-      cursor: pointer;
-      letter-spacing: 0.005em;
-      box-shadow: 0 4px 12px rgba(216,106,34,0.25);
-    }
-    .exercise-card .cta:active { transform: translateY(1px); }
-    /* ---------- Exercise deck navigation (older-friendly) ---------- */
-    .exercise-deck {
-      position: relative;
-    }
-    .ex-heading {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 1.15;
-      color: #fff;
-      text-align: center;
-      margin: 0 0 12px;
-      letter-spacing: -0.015em;
-      transition: opacity 180ms ease;
-    }
-    /* All cards share the same slot; only the active one is visible */
-    .exercise-deck .exercise-card {
-      display: none;
-    }
-    .exercise-deck .exercise-card.active {
-      display: flex;
-      animation: cardFade 220ms ease both;
-    }
-    @keyframes cardFade {
-      from { opacity: 0; transform: translateY(4px); }
-      to   { opacity: 1; transform: none; }
-    }
-    /* The circular chevron buttons */
-    .ex-nav-btn {
-      position: absolute;
-      /* Heading (~23px) + 12px margin-bottom = ~35px headroom,
-         then half the 240px image (120px), then subtract half the button (24px). */
-      top: 131px;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #F2933F 0%, #D8691F 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      display: grid;
-      place-items: center;
-      color: #fff;
-      cursor: pointer;
-      z-index: 4;
-      padding: 0;
-      transition: opacity .18s ease, transform .12s ease, filter .15s;
-      box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55),
-                  0 2px 6px rgba(0, 0, 0, 0.4),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    }
-    .ex-nav-btn:hover { filter: brightness(1.08); }
-    .ex-nav-btn:active { transform: scale(0.92); }
-    .ex-nav-btn svg { width: 24px; height: 24px; stroke: #fff; }
-    .ex-nav-btn.prev { left: 12px; }
-    .ex-nav-btn.next { right: 12px; }
-    /* The next arrow continually pulses (until armed -> still pulses; stops once user taps it) */
-    .ex-nav-btn.next {
-      animation: nextPulse 1500ms ease-in-out 700ms infinite both;
-    }
-    @keyframes nextPulse {
-      0%, 100% { box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55), 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25), 0 0 0 0 rgba(233,122,47,0.45); }
-      50%      { box-shadow: 0 6px 18px rgba(216, 105, 31, 0.55), 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25), 0 0 0 14px rgba(233,122,47,0); }
-    }
-    body:not(.armed) .ex-nav-btn.next { animation: none; }
-    .ex-nav-btn.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    /* Position dots */
-    .ex-dots {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .ex-dots .d {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.22);
-      transition: background .2s ease, width .25s ease;
-    }
-    .ex-dots .d.active {
-      width: 20px;
-      background: var(--ember);
-    }
-
-    /* ---------- Tab bar ---------- */
-    .tab-bar {
-      position: relative;
-      flex-shrink: 0;
-      height: 92px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      align-items: start;
-      padding: 10px 28px 0;
-      background: transparent;
-    }
-    .tab-item {
-      background: transparent;
-      border: none;
-      padding: 8px 0 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: var(--fg-muted);
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    .tab-item svg { width: 24px; height: 24px; }
-    .tab-item.active { color: var(--ember); }
-
-    .fab-wrap {
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
-    .fab {
-      width: 56px; height: 56px;
-      border-radius: 50%;
-      background: #1F1F22;
-      border: 1px solid rgba(255,255,255,0.06);
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      margin-top: -4px;
-      box-shadow:
-        0 6px 16px rgba(0,0,0,0.5),
-        inset 0 0 0 1px rgba(255,255,255,0.02);
-    }
-    .ferra-mark {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 1.5px;
-      width: 22px; height: 22px;
-    }
-    .ferra-mark .dot {
-      width: 100%; aspect-ratio: 1;
-      border-radius: 50%;
-      background: var(--ember);
-    }
-    .ferra-mark .dot.off { background: transparent; }
-    /* ===== Fullscreen-on-real-phone overrides ===== */
-    html, body {
       background: #0A0A0A;
       height: 100%;
       overflow: hidden;
       overscroll-behavior: none;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    .stage {
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: 0;
-      background: #0A0A0A;
+    .swiper {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    .swiper::-webkit-scrollbar { display: none; }
+    .page {
+      flex: 0 0 100vw;
+      height: 100dvh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+    .page iframe {
+      width: 100%; height: 100%;
+      border: 0;
       display: block;
+      background: #0A0A0A;
     }
-    .phone {
-      width: 100vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      background: var(--bg) !important;
+
+    /* Top pill: shows current page + tappable to switch */
+    .page-indicator {
+      position: fixed;
+      top: calc(env(safe-area-inset-top, 4px) + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(15, 15, 17, 0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 3px;
+      display: flex;
+      gap: 2px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
     }
-    .phone .island,
-    .phone .home-indicator,
-    .status-bar {
-      display: none !important;
+    .page-indicator button {
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 999px;
+      color: #888;
+      font: 600 12px/1 inherit;
+      letter-spacing: 0.06em;
+      transition: background .2s ease, color .2s ease;
+      min-width: 44px;
     }
-    .screen {
-      position: relative !important;
-      inset: auto !important;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      padding-top: env(safe-area-inset-top, 0);
+    .page-indicator button.active {
+      background: #E97A2F;
+      color: #fff;
     }
-    .phone, .screen, .content, .tab-bar { box-sizing: border-box; }
-    .content {
-      overflow-y: auto !important;
-      -webkit-overflow-scrolling: touch;
-    }
-    /* Pin exercise card to the bottom so middle sections stay tight at top */
-    .content > .exercise-deck { margin-top: auto; }
 
-    /* ===== Animation gate (wait for first tap) ===== */
-    body:not(.armed) .habit-fill {
-      animation: none !important;
-      transform: scaleX(0);
-    }
-    body:not(.armed) .habit-row .heart-ico svg {
-      animation: none !important;
-    }
-  </style>
-</head>
-<body>
-  <div class="stage">
-    <div class="phone">
-      <div class="island"></div>
-
-      <div class="screen">
-        <!-- Status bar -->
-        <div class="status-bar">
-          <span class="time">9:41</span>
-          <span class="right">
-            <!-- signal -->
-            <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor">
-              <rect x="0" y="8" width="3" height="4" rx="0.5"/>
-              <rect x="5" y="5" width="3" height="7" rx="0.5"/>
-              <rect x="10" y="2" width="3" height="10" rx="0.5"/>
-              <rect x="15" y="0" width="3" height="12" rx="0.5"/>
-            </svg>
-            <!-- wifi -->
-            <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
-              <path d="M8.5 12a1.4 1.4 0 1 0 0-2.8 1.4 1.4 0 0 0 0 2.8Z"/>
-              <path d="M3.4 6.7a7.2 7.2 0 0 1 10.2 0l1.3-1.3a9 9 0 0 0-12.8 0l1.3 1.3Z"/>
-              <path d="M5.7 9a4 4 0 0 1 5.6 0l1.3-1.3a5.8 5.8 0 0 0-8.2 0L5.7 9Z"/>
-            </svg>
-            <!-- battery -->
-            <svg width="26" height="12" viewBox="0 0 26 12" fill="none">
-              <rect x="0.5" y="0.5" width="22" height="11" rx="3" stroke="currentColor" opacity="0.5"/>
-              <rect x="2" y="2" width="19" height="8" rx="1.5" fill="currentColor"/>
-              <rect x="23.5" y="4" width="2" height="4" rx="1" fill="currentColor" opacity="0.5"/>
-            </svg>
-          </span>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-          <!-- Header -->
-          <div class="header">
-            <div class="greeting">
-              <div class="name">Evening, Tom</div>
-            </div>
-            <button class="menu-btn" aria-label="Menu">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16"/>
-              </svg>
-            </button>
-          </div>
-
-          <!-- This Week -->
-          <div>
-            <div class="section-row">
-              <h2 class="section-title">This Week</h2>
-              <span class="streak-pill" aria-label="9 day streak">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#E97A2F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2c0 4-3 5-3 9a5 5 0 0 0 10 0c0-3-1.5-4-3-6 0 2-1.5 3-2 3-1-2 1-4-2-6Z" fill="#E97A2F"/>
-                </svg>
-                <span class="count">9</span>
-                <span>Streak</span>
-              </span>
-            </div>
-            <div class="week-card">
-              <!-- S - miss -->
-              <div class="day">
-                <span class="dow">S</span>
-                <span class="cell miss">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <path d="M6 6l12 12M18 6l-12 12"/>
-                  </svg>
-                </span>
-              </div>
-              <!-- M - done -->
-              <div class="day">
-                <span class="dow">M</span>
-                <span class="cell done">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12l5 5L20 7"/>
-                  </svg>
-                </span>
-              </div>
-              <!-- T - done -->
-              <div class="day">
-                <span class="dow">T</span>
-                <span class="cell done">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12l5 5L20 7"/>
-                  </svg>
-                </span>
-              </div>
-              <!-- W - miss -->
-              <div class="day">
-                <span class="dow">W</span>
-                <span class="cell miss">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <path d="M6 6l12 12M18 6l-12 12"/>
-                  </svg>
-                </span>
-              </div>
-              <!-- T - today, done -->
-              <div class="day today">
-                <span class="dow">T</span>
-                <span class="cell done">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12l5 5L20 7"/>
-                  </svg>
-                </span>
-              </div>
-              <!-- F - future -->
-              <div class="day future">
-                <span class="dow">F</span>
-                <span class="cell future">29</span>
-              </div>
-              <!-- S - future -->
-              <div class="day future">
-                <span class="dow">S</span>
-                <span class="cell future">30</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Habit score -->
-          <div class="habit-score" aria-label="Habit score 50 percent">
-            <div class="habit-row">
-              <span class="label-wrap">
-                <span class="heart-ico">
-                  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M12 20.5l-1.45-1.32C5.4 14.5 2 11.4 2 7.6 2 4.5 4.4 2.1 7.5 2.1c1.74 0 3.41.81 4.5 2.1 1.09-1.29 2.76-2.1 4.5-2.1C19.6 2.1 22 4.5 22 7.6c0 3.8-3.4 6.9-8.55 11.6L12 20.5z"/>
-                  </svg>
-                </span>
-                <span class="habit-label">Habit score</span>
-              </span>
-              <span class="habit-pct">50%</span>
-            </div>
-            <div class="habit-bar-row">
-              <div class="habit-track">
-                <div class="habit-fill"></div>
-              </div>
-              <span class="trophy" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                  <path d="M18 2H6a1 1 0 0 0-1 1v1H3.2A1.2 1.2 0 0 0 2 5.2 4.8 4.8 0 0 0 6.5 10c.86 1.4 2.2 2.4 3.5 2.78V15H8.5a1.5 1.5 0 0 0-1.5 1.5V18h-.5a1 1 0 0 0 0 2h11a1 1 0 0 0 0-2H17v-1.5A1.5 1.5 0 0 0 15.5 15H14v-2.22c1.3-.38 2.64-1.38 3.5-2.78A4.8 4.8 0 0 0 22 5.2 1.2 1.2 0 0 0 20.8 4H19V3a1 1 0 0 0-1-1ZM5 6v.92A2.8 2.8 0 0 1 4.05 6H5Zm14 0h.95A2.8 2.8 0 0 1 19 6.92V6Z"/>
-                </svg>
-              </span>
-            </div>
-          </div>
-
-          <!-- Exercise deck (3 cards, navigated by chevrons or swipe) -->
-          <div class="exercise-deck" id="exDeck">
-            <h2 class="ex-heading" id="exHeading">Exercise of the Day</h2>
-            <article class="exercise-card active">
-              <div class="img">
-                <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
-              </div>
-              <div class="label">Lat Pulldown</div>
-              <button class="cta">Start Exercise</button>
-            </article>
-            <article class="exercise-card">
-              <div class="img">
-                <img src="assets/hero-final.jpg" alt="Bicep curl" />
-              </div>
-              <div class="label">Bicep Curl</div>
-              <button class="cta">Start Exercise</button>
-            </article>
-            <article class="exercise-card">
-              <div class="img">
-                <img src="assets/stage-bicep.jpg" alt="Standing row" />
-              </div>
-              <div class="label">Standing Row</div>
-              <button class="cta">Start Exercise</button>
-            </article>
-
-            <button class="ex-nav-btn prev hidden" id="exPrev" aria-label="Previous exercise">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 6l-6 6 6 6"/>
-              </svg>
-            </button>
-            <button class="ex-nav-btn next" id="exNext" aria-label="Next exercise">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 6l6 6-6 6"/>
-              </svg>
-            </button>
-
-            <div class="ex-dots" id="exDots">
-              <span class="d active"></span>
-              <span class="d"></span>
-              <span class="d"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab bar -->
-        <nav class="tab-bar">
-          <button class="tab-item active">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <path d="M12 3 3 11h2v9h5v-6h4v6h5v-9h2L12 3z"/>
-            </svg>
-            <span>Home</span>
-          </button>
-          <div class="fab-wrap">
-            <button class="fab" aria-label="Start workout">
-              <span class="ferra-mark">
-                <!-- Loose F-shape in dots -->
-                <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
-                <span class="dot"></span><span class="dot off"></span><span class="dot off"></span><span class="dot off"></span>
-                <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot off"></span>
-                <span class="dot"></span><span class="dot off"></span><span class="dot off"></span><span class="dot off"></span>
-              </span>
-            </button>
-          </div>
-          <button class="tab-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 4h11a2 2 0 0 1 2 2v14H7a2 2 0 0 0-2 2V4z"/>
-              <path d="M9 8h6M9 12h6"/>
-            </svg>
-            <span>Journal</span>
-          </button>
-        </nav>
-
-        <div class="home-indicator"></div>
-      </div>
-    </div>
-  </div>
-
-  <style>
+    /* Fullscreen hint */
     #fs-hint {
       position: fixed; inset: 0; z-index: 99999;
       display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
       color: #fff;
-      font: 600 17px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font: 600 17px/1.4 inherit;
       text-align: center; padding: 24px;
       transition: opacity .25s ease;
     }
     #fs-hint.hide { opacity: 0; pointer-events: none; }
     #fs-hint .box {
       background: #1c1c1f;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 22px 26px;
       max-width: 340px;
@@ -841,7 +100,7 @@
     #fs-hint .ver {
       margin-top: 14px;
       padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
       font-weight: 500;
       font-size: 13px;
       color: #888;
@@ -854,24 +113,64 @@
       width: 18px; height: 18px;
       margin: 0 2px;
     }
+    #fs-hint .tip { color: #777; font-weight: 400; font-size: 12px; margin-top: 8px; font-style: italic; }
   </style>
+</head>
+<body>
+  <div class="swiper" id="swiper">
+    <div class="page"><iframe src="v3.html" loading="eager" title="Design v3"></iframe></div>
+    <div class="page"><iframe src="v6.html" loading="eager" title="Design v6"></iframe></div>
+  </div>
+
+  <div class="page-indicator" id="pageInd">
+    <button data-i="0" class="active">v3</button>
+    <button data-i="1">v6</button>
+  </div>
+
   <div id="fs-hint">
     <div class="box" id="fs-hint-box">Loading...</div>
   </div>
+
   <script>
+    /* Page indicator: tap to switch, scroll updates active dot */
+    (function () {
+      var swiper = document.getElementById('swiper');
+      var buttons = document.querySelectorAll('#pageInd button');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var i = parseInt(btn.dataset.i, 10);
+          swiper.scrollTo({ left: i * window.innerWidth, behavior: 'smooth' });
+        });
+      });
+      var ticking = false;
+      swiper.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          var i = Math.round(swiper.scrollLeft / window.innerWidth);
+          buttons.forEach(function (b, idx) { b.classList.toggle('active', idx === i); });
+          ticking = false;
+        });
+      }, { passive: true });
+    })();
+  </script>
+
+  <script>
+    /* Fullscreen tap-to-arm overlay */
     (function () {
       var hint = document.getElementById('fs-hint');
       var box  = document.getElementById('fs-hint-box');
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v23';
-      var DESIGN_VERSION = 'v3';
-      var verLine = '<div class="ver">Design <b>' + DESIGN_VERSION + '</b> · Build <b>' + PREVIEW_VERSION + '</b></div>';
+      var PREVIEW_VERSION = 'v24';
+      var verLine = '<div class="ver">Compare v3 / v6 · Build <b>' + PREVIEW_VERSION + '</b></div>';
+      var tipLine = '<div class="tip">Swipe sideways to compare designs</div>';
+
       if (inStandalone) {
         box.innerHTML =
           'Tap to start <span class="dot">.</span>' +
-          '<div class="sub">Begin animation</div>' + verLine;
+          '<div class="sub">Begin animation</div>' + tipLine + verLine;
         document.addEventListener('click', armAndDismiss, true);
         document.addEventListener('touchend', armAndDismiss, true);
         return;
@@ -882,16 +181,17 @@
           'Tap <svg class="share-ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
           '<path d="M12 3v13"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>' +
           ' Share &rarr; "Add to Home Screen"' +
-          '<div class="sub">Then launch it from the home icon. Tap anywhere to dismiss this hint.</div>' + verLine;
+          '<div class="sub">Then launch it from the home icon. Tap anywhere to dismiss this hint.</div>' + tipLine + verLine;
         document.addEventListener('click', armAndDismiss, true);
         document.addEventListener('touchend', armAndDismiss, true);
         return;
       }
       box.innerHTML =
         'Tap anywhere for fullscreen <span class="dot">.</span>' +
-        '<div class="sub">Hides browser bar &amp; system nav</div>' + verLine;
+        '<div class="sub">Hides browser bar &amp; system nav</div>' + tipLine + verLine;
       document.addEventListener('click', goFullscreen, true);
       document.addEventListener('touchend', goFullscreen, true);
+
       function goFullscreen() {
         var el = document.documentElement;
         var req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
@@ -899,72 +199,31 @@
         if (screen.orientation && screen.orientation.lock) {
           try { screen.orientation.lock('portrait').catch(function(){}); } catch (e) {}
         }
-        arm();
-        dismiss();
+        armAndDismiss();
       }
       function armAndDismiss() { arm(); dismiss(); }
       function arm() {
         if (document.body.classList.contains('armed')) return;
         document.body.classList.add('armed');
+        // Tell each iframe to arm itself
+        document.querySelectorAll('iframe').forEach(function (f) {
+          var send = function () {
+            try { f.contentWindow.postMessage({ type: 'ferra:arm' }, '*'); } catch (e) {}
+          };
+          send();
+          // Send again after a tick in case the iframe is still loading
+          setTimeout(send, 500);
+          setTimeout(send, 1500);
+        });
       }
       function dismiss() {
         hint.classList.add('hide');
-        setTimeout(function(){ if (hint.parentNode) hint.parentNode.removeChild(hint); }, 300);
+        setTimeout(function () { if (hint.parentNode) hint.parentNode.removeChild(hint); }, 300);
         document.removeEventListener('click', goFullscreen, true);
         document.removeEventListener('touchend', goFullscreen, true);
         document.removeEventListener('click', armAndDismiss, true);
         document.removeEventListener('touchend', armAndDismiss, true);
       }
-    })();
-  </script>
-
-  <script>
-    /* ---------- Exercise deck navigation (chevrons + swipe) ---------- */
-    (function () {
-      var deck = document.getElementById('exDeck');
-      if (!deck) return;
-      var cards = deck.querySelectorAll('.exercise-card');
-      var dots = deck.querySelectorAll('.ex-dots .d');
-      var prev = document.getElementById('exPrev');
-      var next = document.getElementById('exNext');
-      var heading = document.getElementById('exHeading');
-      var titles = ['Exercise of the Day', '15min Workout', 'Custom Workout'];
-      var idx = 0;
-
-      function show(i) {
-        var nextIdx = Math.max(0, Math.min(cards.length - 1, i));
-        if (nextIdx === idx && heading.textContent === titles[idx]) return;
-        idx = nextIdx;
-        cards.forEach(function (c, j) { c.classList.toggle('active', j === idx); });
-        dots.forEach(function (d, j) { d.classList.toggle('active', j === idx); });
-        prev.classList.toggle('hidden', idx === 0);
-        next.classList.toggle('hidden', idx === cards.length - 1);
-        // crossfade the heading text
-        heading.style.opacity = '0';
-        setTimeout(function () {
-          heading.textContent = titles[idx] || heading.textContent;
-          heading.style.opacity = '1';
-        }, 160);
-      }
-
-      function stopPulse() { next.style.animation = 'none'; }
-      prev.addEventListener('click', function (e) { e.stopPropagation(); stopPulse(); show(idx - 1); });
-      next.addEventListener('click', function (e) { e.stopPropagation(); stopPulse(); show(idx + 1); });
-
-      // Touch swipe — bonus affordance for users who do swipe
-      var sx = null, sy = null;
-      deck.addEventListener('touchstart', function (e) {
-        var t = e.touches[0]; sx = t.clientX; sy = t.clientY;
-      }, { passive: true });
-      deck.addEventListener('touchend', function (e) {
-        if (sx === null) return;
-        var t = e.changedTouches[0];
-        var dx = t.clientX - sx, dy = t.clientY - sy;
-        sx = sy = null;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-          if (dx < 0) show(idx + 1); else show(idx - 1);
-        }
-      }, { passive: true });
     })();
   </script>
 </body>
