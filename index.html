@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v3 — build v18</title>
+  <title>Ferra · Home v3 — build v19</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -400,6 +400,78 @@
       box-shadow: 0 4px 12px rgba(216,106,34,0.25);
     }
     .exercise-card .cta:active { transform: translateY(1px); }
+    /* ---------- Exercise deck navigation (older-friendly) ---------- */
+    .exercise-deck {
+      position: relative;
+    }
+    /* All cards share the same slot; only the active one is visible */
+    .exercise-deck .exercise-card {
+      display: none;
+    }
+    .exercise-deck .exercise-card.active {
+      display: flex;
+      animation: cardFade 220ms ease both;
+    }
+    @keyframes cardFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: none; }
+    }
+    /* The circular chevron buttons */
+    .ex-nav-btn {
+      position: absolute;
+      top: 102px;            /* vertically centred over the 240px image */
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(10, 10, 10, 0.62);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      cursor: pointer;
+      z-index: 4;
+      padding: 0;
+      transition: opacity .18s ease, transform .12s ease, background .15s;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+    .ex-nav-btn:hover { background: rgba(20, 20, 20, 0.75); }
+    .ex-nav-btn:active { transform: scale(0.92); }
+    .ex-nav-btn svg { width: 22px; height: 22px; }
+    .ex-nav-btn.prev { left: 10px; }
+    .ex-nav-btn.next { right: 10px; }
+    /* The next arrow gently pulses once or twice to attract attention */
+    .ex-nav-btn.next {
+      animation: nextPulse 1600ms ease-in-out 600ms 3 both;
+    }
+    @keyframes nextPulse {
+      0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 0 rgba(233,122,47,0); }
+      50%      { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 10px rgba(233,122,47,0.18); }
+    }
+    body:not(.armed) .ex-nav-btn.next { animation: none; }
+    .ex-nav-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    /* Position dots */
+    .ex-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .ex-dots .d {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      transition: background .2s ease, width .25s ease;
+    }
+    .ex-dots .d.active {
+      width: 20px;
+      background: var(--ember);
+    }
 
     /* ---------- Tab bar ---------- */
     .tab-bar {
@@ -501,7 +573,7 @@
       -webkit-overflow-scrolling: touch;
     }
     /* Pin exercise card to the bottom so middle sections stay tight at top */
-    .content > .exercise-card { margin-top: auto; }
+    .content > .exercise-deck { margin-top: auto; }
 
     /* ===== Animation gate (wait for first tap) ===== */
     body:not(.armed) .habit-fill {
@@ -655,13 +727,46 @@
             </div>
           </div>
 
-          <!-- Exercise card -->
-          <div class="exercise-card">
-            <div class="img">
-              <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
+          <!-- Exercise deck (3 cards, navigated by chevrons or swipe) -->
+          <div class="exercise-deck" id="exDeck">
+            <article class="exercise-card active">
+              <div class="img">
+                <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
+              </div>
+              <div class="label">Lat Pulldown</div>
+              <button class="cta">Start Exercise</button>
+            </article>
+            <article class="exercise-card">
+              <div class="img">
+                <img src="assets/hero-final.jpg" alt="Bicep curl" />
+              </div>
+              <div class="label">Bicep Curl</div>
+              <button class="cta">Start Exercise</button>
+            </article>
+            <article class="exercise-card">
+              <div class="img">
+                <img src="assets/stage-bicep.jpg" alt="Standing row" />
+              </div>
+              <div class="label">Standing Row</div>
+              <button class="cta">Start Exercise</button>
+            </article>
+
+            <button class="ex-nav-btn prev hidden" id="exPrev" aria-label="Previous exercise">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 6l-6 6 6 6"/>
+              </svg>
+            </button>
+            <button class="ex-nav-btn next" id="exNext" aria-label="Next exercise">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 6l6 6-6 6"/>
+              </svg>
+            </button>
+
+            <div class="ex-dots" id="exDots">
+              <span class="d active"></span>
+              <span class="d"></span>
+              <span class="d"></span>
             </div>
-            <div class="label">Lat Pulldown</div>
-            <button class="cta">Start Exercise</button>
           </div>
         </div>
 
@@ -746,7 +851,7 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v18';
+      var PREVIEW_VERSION = 'v19';
       var DESIGN_VERSION = 'v3';
       var verLine = '<div class="ver">Design <b>' + DESIGN_VERSION + '</b> · Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
@@ -796,6 +901,45 @@
         document.removeEventListener('click', armAndDismiss, true);
         document.removeEventListener('touchend', armAndDismiss, true);
       }
+    })();
+  </script>
+
+  <script>
+    /* ---------- Exercise deck navigation (chevrons + swipe) ---------- */
+    (function () {
+      var deck = document.getElementById('exDeck');
+      if (!deck) return;
+      var cards = deck.querySelectorAll('.exercise-card');
+      var dots = deck.querySelectorAll('.ex-dots .d');
+      var prev = document.getElementById('exPrev');
+      var next = document.getElementById('exNext');
+      var idx = 0;
+
+      function show(i) {
+        idx = Math.max(0, Math.min(cards.length - 1, i));
+        cards.forEach(function (c, j) { c.classList.toggle('active', j === idx); });
+        dots.forEach(function (d, j) { d.classList.toggle('active', j === idx); });
+        prev.classList.toggle('hidden', idx === 0);
+        next.classList.toggle('hidden', idx === cards.length - 1);
+      }
+
+      prev.addEventListener('click', function (e) { e.stopPropagation(); show(idx - 1); });
+      next.addEventListener('click', function (e) { e.stopPropagation(); show(idx + 1); });
+
+      // Touch swipe — bonus affordance for users who do swipe
+      var sx = null, sy = null;
+      deck.addEventListener('touchstart', function (e) {
+        var t = e.touches[0]; sx = t.clientX; sy = t.clientY;
+      }, { passive: true });
+      deck.addEventListener('touchend', function (e) {
+        if (sx === null) return;
+        var t = e.changedTouches[0];
+        var dx = t.clientX - sx, dy = t.clientY - sy;
+        sx = sy = null;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) show(idx + 1); else show(idx - 1);
+        }
+      }, { passive: true });
     })();
   </script>
 </body>
