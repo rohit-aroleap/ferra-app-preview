@@ -8,10 +8,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v6 — build v17</title>
+  <title>Ferra · Home v3 — build v18</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0A0A0A;
@@ -122,10 +122,10 @@
       flex: 1;
       min-height: 0;
       overflow: hidden;
-      padding: 8px 22px 0;
+      padding: 18px 22px 0;
       display: flex;
       flex-direction: column;
-      gap: 11px;
+      gap: 22px;
     }
 
     /* ---------- Header ---------- */
@@ -134,7 +134,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding-top: 6px;
+      padding-top: 22px;
     }
     .header .greeting {
       display: flex;
@@ -156,8 +156,8 @@
       align-items: center;
       gap: 8px;
       padding: 7px 16px 7px 12px;
-      background: #232326;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(233, 122, 47, 0.10);
+      border: 1px solid rgba(233, 122, 47, 0.28);
       border-radius: 999px;
       font-family: var(--font-body);
       font-weight: 400;
@@ -196,21 +196,20 @@
       margin: 0;
       letter-spacing: -0.02em;
       line-height: 1;
-      white-space: nowrap;
     }
     .section-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     /* ---------- Week strip ---------- */
     .week-card {
-      background: transparent;
-      border: 2px solid rgba(255,255,255,0.14);
-      border-radius: 16px;
+      background: #1F1F22;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 14px;
       padding: 12px 8px 14px;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -244,38 +243,29 @@
       font-variant-numeric: tabular-nums;
     }
     .cell.miss {
-      background: #26262A;
-      color: #6E6E6E;
+      background: #5A1F1B;
+      color: #E25C50;
     }
-    .cell.miss svg { width: 11px; height: 11px; }
+    .cell.miss svg { width: 12px; height: 12px; }
     .cell.done {
-      background: var(--ember);
+      background: var(--done);
       color: #0A0A0A;
     }
     .cell.done svg { width: 14px; height: 14px; stroke: #0A0A0A; }
     .cell.future {
       background: transparent;
       border: 1px solid #3A3A3D;
-      color: #6E6E6E;
+      color: #B3B3B3;
     }
     .day.today .cell {
-      box-shadow: 0 0 0 2px #0A0A0A, 0 0 0 4px var(--ember);
+      box-shadow: 0 0 0 2px var(--ember);
     }
 
-    /* ---------- Habit score (coach card) ---------- */
-    .habit-card {
+    /* ---------- Habit score ---------- */
+    .habit-score {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      padding: 4px 2px;
-    }
-    .habit-main {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
+      gap: 8px;
     }
     .habit-row {
       display: flex;
@@ -286,7 +276,7 @@
     .habit-row .label-wrap {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
     .habit-row .heart-ico {
       display: grid;
@@ -294,12 +284,10 @@
       color: #E23C3C;
     }
     .habit-row .heart-ico svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       transform-origin: center;
-    }
-    .habit-row .heart-ico.beating svg {
-      animation: heartbeat 1500ms ease-in-out infinite both;
+      animation: heartbeat 1500ms ease-in-out 1050ms infinite both;
     }
     @keyframes heartbeat {
       0%   { transform: scale(1); }
@@ -307,13 +295,15 @@
       22%  { transform: scale(1); }
       100% { transform: scale(1); }
     }
+    @media (prefers-reduced-motion: reduce) {
+      .habit-fill, .habit-row .heart-ico svg { animation: none; }
+    }
     .habit-label {
       font-family: var(--font-body);
       font-weight: 500;
       font-size: 15px;
       color: var(--fg-muted);
       letter-spacing: -0.005em;
-      white-space: nowrap;
     }
     .habit-pct {
       font-family: var(--font-body);
@@ -327,11 +317,10 @@
       position: relative;
       flex: 1;
       min-width: 0;
-      height: 10px;
-      background: #202022;
+      height: 12px;
+      background: #2A2A2C;
       border-radius: 999px;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.5),
-                  inset 0 0 0 1px rgba(255,255,255,0.03);
+      overflow: hidden;
     }
     .habit-bar-row {
       display: flex;
@@ -349,316 +338,68 @@
       height: 20px;
     }
     .habit-fill {
-      position: relative;
       height: 100%;
       width: 50%;
+      background: linear-gradient(90deg, #EC8237 0%, #E97A2F 100%);
       border-radius: 999px;
-      overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0) 48%),
-        linear-gradient(90deg, #D8691F 0%, #F2933F 100%);
-      box-shadow: 0 0 10px rgba(233,122,47,0.45), 0 1px 2px rgba(0,0,0,0.35);
       transform-origin: left center;
-      animation: fillGrow 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms both;
-    }
-    /* a single light-sweep passes once after the bar fills */
-    .habit-fill::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      height: 100%; width: 55%;
-      background: linear-gradient(100deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
-      transform: translateX(-200%);
-      animation: barSheen 1050ms cubic-bezier(0.3, 0, 0.2, 1) 1200ms both;
+      animation: fillGrow 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both;
     }
     @keyframes fillGrow {
       from { transform: scaleX(0); }
       to   { transform: scaleX(1); }
     }
-    @keyframes barSheen {
-      to { transform: translateX(360%); }
-    }
-    .habit-cheer {
-      margin: 0;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 13px;
-      line-height: 1.3;
-      color: var(--fg-muted);
-      letter-spacing: -0.005em;
-    }
-    .habit-cheer strong {
-      color: var(--ember);
-      font-weight: 600;
-    }
-    /* coach + speech bubble */
-    .coach-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .speech {
-      position: relative;
-      flex: 1;
-      min-width: 0;
-      background: #232326;
-      border-radius: 14px;
-      padding: 11px 14px;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 340ms ease, transform 380ms cubic-bezier(0.2,0.8,0.2,1);
-    }
-    .habit-card.coach-open .speech {
-      opacity: 1;
-      transform: none;
-    }
-    .speech::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: -7px;
-      transform: translateY(-50%);
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-left: 8px solid #232326;
-    }
-    .speech p {
-      margin: 0;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 15px;
-      line-height: 1.35;
-      color: rgba(255,255,255,0.88);
-      letter-spacing: -0.005em;
-    }
-    .speech p strong {
-      color: var(--ember);
-      font-weight: 600;
-    }
-    .turtle-wrap {
-      flex-shrink: 0;
-      width: 129px;
-      height: 129px;
-      overflow: hidden;
-      border-radius: 12px;
-    }
-    .turtle-coach {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      object-position: 50% 42%;
-      mix-blend-mode: screen;
-    }
-    .speech p span {
-      opacity: 0;
-      transition: opacity 90ms linear;
-    }
-    #coachLine { transition: opacity 240ms ease; }
-    .speech p.revealed span {
-      opacity: 1;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .habit-fill, .habit-row .heart-ico svg { animation: none; }
-      .habit-fill::after { animation: none; opacity: 0; }
-      .speech p span { opacity: 1; transition: none; }
-      .speech { transition: none; }
-    }
 
-    /* ---------- Exercise deck (swipeable) ---------- */
-    .ex-section { display: flex; flex-direction: column; margin-top: 6px; }
-    .ex-head .section-title { white-space: nowrap; }
-    #exTitle { font-weight: 300; letter-spacing: -0.01em; }
-    .ex-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .swipe-hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 12px;
-      letter-spacing: 0.01em;
-      color: var(--fg-subtle);
-    }
-    .swipe-hint svg { width: 16px; height: 16px; }
-    .swipe-hint .arrows {
-      display: inline-flex;
-      color: var(--ember);
-    }
-    @keyframes handWave {
-      0%, 100% { transform: translateX(0); opacity: 0.55; }
-      50%      { transform: translateX(5px); opacity: 1; }
-    }
-
-    /* deck: horizontal peek carousel (scroll-snap) */
-    .ex-deck {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 90%;
-      gap: 8px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: none;
-      scroll-behavior: auto;
-      touch-action: pan-y;
-      padding: 6px 5% 12px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      overscroll-behavior-x: contain;
-      cursor: grab;
-    }
-    .ex-deck.grabbing { cursor: grabbing; }
-    .ex-deck::-webkit-scrollbar { display: none; }
-    .ex-card {
-      position: relative;
-      scroll-snap-align: center;
-      user-select: none;
-      -webkit-user-select: none;
+    /* ---------- Exercise card ---------- */
+    .exercise-card {
       background: #232326;
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px;
+      border-radius: 22px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 14px 36px rgba(0,0,0,0.5);
-      transform-origin: center center;
-      transform: scale(0.92);
-      opacity: 0.62;
-      will-change: transform;
     }
-    /* scale + opacity are interpolated continuously in JS (distance-from-centre),
-       so no CSS transition here — it would fight the per-frame updates */
-    .ex-card.is-center {
-      transform: scale(1);
-      opacity: 1;
-    }
-    .ex-card .img {
-      height: 138px;
+    .exercise-card .img {
+      height: 240px;
       position: relative;
       background: #2a2a2d;
       overflow: hidden;
     }
-    .ex-card .img img {
+    .exercise-card .img img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      pointer-events: none;
     }
-    .ex-card .img::after {
-      content: "";
+    .exercise-card .img .placeholder {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(20,20,22,0.55) 100%);
-    }
-    .ex-card .badge {
-      position: absolute;
-      top: 12px; left: 12px;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 11px 5px 9px;
-      background: rgba(10,10,10,0.55);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 999px;
-      font-family: var(--font-body);
-      font-weight: 600;
+      display: grid; place-items: center;
+      color: var(--fg-subtle);
       font-size: 12px;
-      letter-spacing: 0.01em;
-      color: #fff;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
-    .ex-card .badge svg { width: 14px; height: 14px; color: var(--ember); }
-    .ex-meta {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 11px 18px 2px;
-    }
-    .ex-card .label {
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 19px;
-      color: var(--fg-muted);
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-    .ex-card .ex-sub {
+    .exercise-card .label {
+      padding: 12px 18px 4px;
       font-family: var(--font-body);
       font-weight: 500;
-      font-size: 13px;
-      color: var(--fg-muted);
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
+      font-size: 18px;
+      color: #fff;
+      letter-spacing: -0.005em;
     }
-    .ex-card .cta {
-      margin: 7px 12px 12px;
+    .exercise-card .cta {
+      margin: 8px 12px 12px;
       background: linear-gradient(180deg, #EC8237 0%, #D86A22 100%);
-      color: #2A2A2C;
+      color: #fff;
       border: none;
       border-radius: 14px;
-      padding: 12px;
+      padding: 16px;
       font-family: var(--font-body);
       font-weight: 600;
       font-size: 18px;
       cursor: pointer;
       letter-spacing: 0.005em;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      box-shadow: 0 4px 12px rgba(216,106,34,0.25);
     }
-    .ex-card .cta:active { transform: translateY(1px); }
-
-    /* swipe-direction stamp that fades in as you drag */
-    .ex-card .stamp {
-      position: absolute;
-      top: 18px; right: 14px;
-      z-index: 3;
-      padding: 5px 12px;
-      border: 2px solid var(--ember);
-      border-radius: 8px;
-      color: var(--ember);
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      transform: rotate(8deg);
-      opacity: 0;
-    }
-
-    .dots {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .dots .d {
-      width: 6px; height: 6px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.22);
-    }
-    .dots.ready .d {
-      transition: width 220ms cubic-bezier(0.2,0.8,0.2,1), background 220ms;
-    }
-    .dots .d.active {
-      width: 18px;
-      background: var(--ember);
-    }
-    /* one-time hint that the top card can be swiped */
-    .ex-card.nudge { animation: cardNudge 1150ms cubic-bezier(0.2,0.8,0.2,1) 2; }
-    @keyframes cardNudge {
-      0%, 60%, 100% { transform: translateX(0) rotate(0); }
-      28%           { transform: translateX(30px) rotate(2.2deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .ex-card.nudge { animation: none; }
-      .swipe-hint .arrows { animation: none; }
-    }
+    .exercise-card .cta:active { transform: translateY(1px); }
 
     /* ---------- Tab bar ---------- */
     .tab-bar {
@@ -759,18 +500,15 @@
       overflow-y: auto !important;
       -webkit-overflow-scrolling: touch;
     }
-    /* Keep header/week/habit tight at top; let only the exercise deck float to the bottom */
-    .content > .ex-section { margin-top: auto; }
+    /* Pin exercise card to the bottom so middle sections stay tight at top */
+    .content > .exercise-card { margin-top: auto; }
 
-    /* ===== Animation gate ===== */
+    /* ===== Animation gate (wait for first tap) ===== */
     body:not(.armed) .habit-fill {
       animation: none !important;
       transform: scaleX(0);
     }
-    body:not(.armed) .habit-fill::after {
-      animation: none !important;
-    }
-    body:not(.armed) .habit-row .heart-ico.beating svg {
+    body:not(.armed) .habit-row .heart-ico svg {
       animation: none !important;
     }
   </style>
@@ -812,7 +550,7 @@
           <!-- Header -->
           <div class="header">
             <div class="greeting">
-              <div class="name">Welcome</div>
+              <div class="name">Evening, Tom</div>
             </div>
             <button class="menu-btn" aria-label="Menu">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -826,9 +564,8 @@
             <div class="section-row">
               <h2 class="section-title">This Week</h2>
               <span class="streak-pill" aria-label="9 day streak">
-                <svg viewBox="0 0 24 24" fill="none" stroke="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13.1 2.2c.4 2.7-.9 4.2-2.4 5.6C9 9.4 7 11 7 14.2A6 6 0 0 0 19 14c0-2.6-1.2-4.6-2.7-6-.5 1.4-1.4 2-2.1 2.2.9-2.6.6-5.6-1.1-8Z" fill="#E97A2F"/>
-                  <path d="M12.2 12.2c1.4 1 2.1 2.2 2.1 3.6a2.3 2.3 0 0 1-4.6.1c0-1.3.9-2.1 1.6-2.9.3.5.7.8 1.1.9-.4-.6-.4-1.2-.2-1.7Z" fill="#FFC15E"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#E97A2F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2c0 4-3 5-3 9a5 5 0 0 0 10 0c0-3-1.5-4-3-6 0 2-1.5 3-2 3-1-2 1-4-2-6Z" fill="#E97A2F"/>
                 </svg>
                 <span class="count">9</span>
                 <span>Streak</span>
@@ -893,98 +630,38 @@
             </div>
           </div>
 
-          <!-- Habit score (coach card) -->
-          <div class="habit-card" aria-label="Habit score 50 percent">
-            <div class="habit-main">
-              <div class="habit-row">
-                <span class="label-wrap">
-                  <span class="heart-ico">
-                    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                      <path d="M12 20.5l-1.45-1.32C5.4 14.5 2 11.4 2 7.6 2 4.5 4.4 2.1 7.5 2.1c1.74 0 3.41.81 4.5 2.1 1.09-1.29 2.76-2.1 4.5-2.1C19.6 2.1 22 4.5 22 7.6c0 3.8-3.4 6.9-8.55 11.6L12 20.5z"/>
-                    </svg>
-                  </span>
-                  <span class="habit-label">Habit score</span>
-                </span>
-                <span class="habit-pct">50%</span>
-              </div>
-              <div class="habit-bar-row">
-                <div class="habit-track">
-                  <div class="habit-fill"></div>
-                </div>
-                <span class="trophy" aria-hidden="true">
+          <!-- Habit score -->
+          <div class="habit-score" aria-label="Habit score 50 percent">
+            <div class="habit-row">
+              <span class="label-wrap">
+                <span class="heart-ico">
                   <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                    <path d="M18 2H6a1 1 0 0 0-1 1v1H3.2A1.2 1.2 0 0 0 2 5.2 4.8 4.8 0 0 0 6.5 10c.86 1.4 2.2 2.4 3.5 2.78V15H8.5a1.5 1.5 0 0 0-1.5 1.5V18h-.5a1 1 0 0 0 0 2h11a1 1 0 0 0 0-2H17v-1.5A1.5 1.5 0 0 0 15.5 15H14v-2.22c1.3-.38 2.64-1.38 3.5-2.78A4.8 4.8 0 0 0 22 5.2 1.2 1.2 0 0 0 20.8 4H19V3a1 1 0 0 0-1-1ZM5 6v.92A2.8 2.8 0 0 1 4.05 6H5Zm14 0h.95A2.8 2.8 0 0 1 19 6.92V6Z"/>
+                    <path d="M12 20.5l-1.45-1.32C5.4 14.5 2 11.4 2 7.6 2 4.5 4.4 2.1 7.5 2.1c1.74 0 3.41.81 4.5 2.1 1.09-1.29 2.76-2.1 4.5-2.1C19.6 2.1 22 4.5 22 7.6c0 3.8-3.4 6.9-8.55 11.6L12 20.5z"/>
                   </svg>
                 </span>
-              </div>
+                <span class="habit-label">Habit score</span>
+              </span>
+              <span class="habit-pct">50%</span>
             </div>
-            <div class="coach-row">
-              <div class="speech">
-                <p id="coachLine" aria-label="Halfway there. Two more sessions and the week is yours."></p>
+            <div class="habit-bar-row">
+              <div class="habit-track">
+                <div class="habit-fill"></div>
               </div>
-              <div class="turtle-wrap">
-                <video class="turtle-coach" src="assets/turtle-try6.mp4" muted playsinline preload="auto" aria-label="Coach turtle celebrating"></video>
-              </div>
+              <span class="trophy" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                  <path d="M18 2H6a1 1 0 0 0-1 1v1H3.2A1.2 1.2 0 0 0 2 5.2 4.8 4.8 0 0 0 6.5 10c.86 1.4 2.2 2.4 3.5 2.78V15H8.5a1.5 1.5 0 0 0-1.5 1.5V18h-.5a1 1 0 0 0 0 2h11a1 1 0 0 0 0-2H17v-1.5A1.5 1.5 0 0 0 15.5 15H14v-2.22c1.3-.38 2.64-1.38 3.5-2.78A4.8 4.8 0 0 0 22 5.2 1.2 1.2 0 0 0 20.8 4H19V3a1 1 0 0 0-1-1ZM5 6v.92A2.8 2.8 0 0 1 4.05 6H5Zm14 0h.95A2.8 2.8 0 0 1 19 6.92V6Z"/>
+                </svg>
+              </span>
             </div>
           </div>
 
-          <!-- Exercise of the Day — swipeable deck -->
-          <div class="ex-section">
-            <div class="ex-head">
-              <h2 class="section-title" id="exTitle">Exercise of the Day</h2>
-              <span class="swipe-hint">
-                Swipe
-                <span class="arrows" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12h14M13 6l6 6-6 6"/>
-                  </svg>
-                </span>
-              </span>
+          <!-- Exercise card -->
+          <div class="exercise-card">
+            <div class="img">
+              <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
             </div>
-            <div class="ex-deck" id="exDeck">
-              <article class="ex-card">
-                <div class="img">
-                  <span class="badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5v7M8.5 6.5v11M15.5 6.5v11M18.5 8.5v7M8.5 12h7"/></svg>
-                    Back
-                  </span>
-                  <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
-                  <span class="stamp">Next</span>
-                </div>
-                <div class="ex-meta">
-                  <span class="label">Lat Pulldown</span>
-                </div>
-                <button class="cta">Start Exercise</button>
-              </article>
-              <article class="ex-card">
-                <div class="img">
-                  <span class="badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5v7M8.5 6.5v11M15.5 6.5v11M18.5 8.5v7M8.5 12h7"/></svg>
-                    Arms
-                  </span>
-                  <img src="assets/hero-final.jpg" alt="Bicep curl" />
-                  <span class="stamp">Next</span>
-                </div>
-                <div class="ex-meta">
-                  <span class="label">Bicep Curl</span>
-                </div>
-                <button class="cta">Start Exercise</button>
-              </article>
-              <article class="ex-card">
-                <div class="img">
-                  <span class="badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5v7M8.5 6.5v11M15.5 6.5v11M18.5 8.5v7M8.5 12h7"/></svg>
-                    Back
-                  </span>
-                  <img src="assets/stage-bicep.jpg" alt="Standing row" />
-                  <span class="stamp">Next</span>
-                </div>
-                <div class="ex-meta">
-                  <span class="label">Standing Row</span>
-                </div>
-                <button class="cta">Start Exercise</button>
-              </article>
-            </div>
+            <div class="label">Lat Pulldown</div>
+            <button class="cta">Start Exercise</button>
           </div>
         </div>
 
@@ -1020,358 +697,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    function ferraTyping() {
-      var el = document.getElementById('coachLine');
-      if (!el) return;
-      var heart = document.querySelector('.habit-row .heart-ico');
-      var video = document.querySelector('.turtle-coach');
-
-      var perChar = 38; // ms between letters — reads like it's being spoken
-      var greeting = [{ text: 'Hey Tom!', strong: true }];
-      var line = [
-        { text: 'Halfway there\u2026 ', strong: true },
-        { text: 'two more sessions and the week is yours.', strong: false }
-      ];
-
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var card = document.querySelector('.habit-card');
-
-      function startBeat() { if (heart) heart.classList.add('beating'); }
-
-      // build a message as per-character spans and reveal them one by one
-      function typeMessage(segments, onDone) {
-        el.innerHTML = '';
-        var chars = [];
-        segments.forEach(function (seg) {
-          Array.from(seg.text).forEach(function (ch) {
-            var s = document.createElement('span');
-            s.textContent = ch;
-            if (seg.strong) { s.style.color = 'var(--ember)'; s.style.fontWeight = '600'; }
-            s.style.opacity = '0';
-            el.appendChild(s);
-            chars.push(s);
-          });
-        });
-        el.style.opacity = '1';
-        chars.forEach(function (s, i) {
-          setTimeout(function () { s.style.opacity = '1'; }, i * perChar);
-        });
-        if (onDone) setTimeout(onDone, chars.length * perChar + 200);
-      }
-
-      function showStatic(segments) {
-        el.innerHTML = '';
-        segments.forEach(function (seg) {
-          var s = document.createElement('span');
-          s.textContent = seg.text;
-          s.style.opacity = '1';
-          if (seg.strong) { s.style.color = 'var(--ember)'; s.style.fontWeight = '600'; }
-          el.appendChild(s);
-        });
-        el.style.opacity = '1';
-      }
-
-      if (reduce) {
-        if (card) card.classList.add('coach-open');
-        showStatic(line);
-        startBeat();
-        return;
-      }
-
-      // "Hey Tom!" types in → holds → fades out → the habit line types in
-      function runSequence() {
-        typeMessage(greeting, function () {
-          setTimeout(function () {
-            el.style.opacity = '0';                 // greeting fades away
-            setTimeout(function () {
-              typeMessage(line, function () { setTimeout(startBeat, 250); });
-            }, 260);
-          }, 1100);
-        });
-      }
-
-      var TRIM = 4.0;   // stop the turtle clip at 4s
-      var started = false;
-      function begin() {
-        if (started) return; started = true;
-        if (card) card.classList.add('coach-open');   // bubble fades in
-        setTimeout(runSequence, 200);                  // greeting follows it in
-      }
-      // hold the turtle on its 4s frame, THEN bring in the coach text
-      if (video) {
-        var capAndBegin = function () {
-          try { video.pause(); } catch (e) {}
-          begin();
-        };
-        video.addEventListener('timeupdate', function () {
-          if (video.currentTime >= TRIM) capAndBegin();
-        });
-        video.addEventListener('ended', capAndBegin, { once: true });
-        setTimeout(begin, TRIM * 1000 + 800);          // fallback if autoplay is blocked
-      } else {
-        setTimeout(begin, TRIM * 1000);
-      }
-    }
-    document.addEventListener('ferra:armed', ferraTyping, { once: true });
-  </script>
-
-  <script>
-    /* ---------- Exercise deck — infinite (looping) peek carousel ---------- */
-    (function () {
-      var deck = document.getElementById('exDeck');
-      var dotsWrap = document.getElementById('exDots');
-      if (!deck) return;
-      var originals = Array.prototype.slice.call(deck.querySelectorAll('.ex-card'));
-      var N = originals.length;
-      if (N === 0) return;
-
-      // Clone a full set of cards before and after the originals so a panel is
-      // always present on each side. The middle group is the "real" set; when a
-      // clone scrolls to centre we silently jump back to its real twin.
-      var before = originals.map(function (c) { var n = c.cloneNode(true); n.dataset.clone = '1'; return n; });
-      var after  = originals.map(function (c) { var n = c.cloneNode(true); n.dataset.clone = '1'; return n; });
-      before.forEach(function (n) { deck.insertBefore(n, originals[0]); });
-      after.forEach(function (n) { deck.appendChild(n); });
-      var all = Array.prototype.slice.call(deck.querySelectorAll('.ex-card'));
-      all.forEach(function (card, i) { card._logical = i % N; });
-
-      // build dots — one per real card
-      for (var k = 0; k < N && dotsWrap; k++) {
-        var dd = document.createElement('span');
-        dd.className = 'd';
-        dotsWrap.appendChild(dd);
-      }
-      var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.children) : [];
-
-      // per-card titles — left-aligned with the centred card, crossfading
-      // (current slides out, next slides in) as the deck moves
-      var titleEl = document.getElementById('exTitle');
-      var titles = ['Exercise of the Day', '15min Workout', 'Custom Workout'];
-      var shownLogical = 0;
-      function alignTitle() {
-        if (!titleEl) return;
-        var c = all[nearestPhysical()];
-        var off = c.getBoundingClientRect().left - titleEl.parentNode.getBoundingClientRect().left;
-        titleEl.style.marginLeft = Math.max(0, off).toFixed(1) + 'px';
-      }
-
-      function centerOf(card) { return card.offsetLeft + card.offsetWidth / 2; }
-      // rect-based centring — getBoundingClientRect reflects what's actually
-      // painted (incl. deck padding), so the centre card lands dead-centre
-      // with equal peek on both sides
-      function deckMid() { var r = deck.getBoundingClientRect(); return r.left + r.width / 2; }
-      function cardMid(c) { var r = c.getBoundingClientRect(); return r.left + r.width / 2; }
-      function targetFor(c) { return deck.scrollLeft + (cardMid(c) - deckMid()); }
-      function setScrollLeft(x, smooth) {
-        var prev = deck.style.scrollBehavior;
-        deck.style.scrollBehavior = smooth ? 'smooth' : 'auto';
-        deck.scrollLeft = x;
-        if (!smooth) deck.style.scrollBehavior = prev;
-        else requestAnimationFrame(function () { deck.style.scrollBehavior = prev; });
-      }
-      function nearestPhysical() {
-        var mid = deckMid(), best = 0, bd = Infinity;
-        all.forEach(function (c, i) {
-          var dist = Math.abs(cardMid(c) - mid);
-          if (dist < bd) { bd = dist; best = i; }
-        });
-        return best;
-      }
-
-      // continuously interpolate each card's scale + opacity by its distance
-      // from the deck centre — this is what makes the slide feel premium
-      var gapPx = 8;
-      function applyVisual() {
-        var mid = deckMid();
-        var pitch = all[N].offsetWidth + gapPx;
-        var p = 0, bd = Infinity;
-        all.forEach(function (c, i) {
-          var dist = Math.abs(cardMid(c) - mid);
-          if (dist < bd) { bd = dist; p = i; }
-          var t = Math.max(0, 1 - dist / pitch);
-          var e = t * t * (3 - 2 * t);                 // smoothstep easing
-          c.style.transform = 'scale(' + (0.9 + 0.1 * e).toFixed(4) + ')';
-          c.style.opacity = (0.5 + 0.5 * e).toFixed(3);
-        });
-        all.forEach(function (c, i) { c.classList.toggle('is-center', i === p); });
-        var logical = all[p]._logical;
-        dots.forEach(function (d, i) { d.classList.toggle('active', i === logical); });
-        // title dissolves continuously with the swipe: fades + drifts as the
-        // centred card leaves, swaps text while invisible, fades back in
-        if (titleEl) {
-          var signed = cardMid(all[p]) - mid;
-          var prog = Math.min(1, Math.abs(signed) / (pitch / 2));
-          var op = Math.max(0, 1 - prog * 1.15);     // fully gone just before midpoint
-          if (logical !== shownLogical) { titleEl.textContent = titles[logical] || titleEl.textContent; shownLogical = logical; }
-          titleEl.style.transition = 'none';
-          titleEl.style.opacity = op.toFixed(3);
-          titleEl.style.transform = 'translateX(' + (signed * 0.14).toFixed(1) + 'px)';
-        }
-      }
-      function paint() { applyVisual(); }
-
-      // run a short rAF loop while the deck is moving so transforms track the
-      // scroll position every frame (no stepping, no lag)
-      var animUntil = 0, looping = false;
-      function kick() {
-        animUntil = performance.now() + 240;
-        if (!looping) { looping = true; requestAnimationFrame(loop); }
-      }
-      function loop(now) {
-        applyVisual();
-        if (down || now < animUntil) requestAnimationFrame(loop);
-        else { looping = false; applyVisual(); }
-      }
-
-      // ---- loop correction: snap a centred clone back onto its real twin ----
-      var settleTimer = null;
-      function scheduleSettle() {
-        if (settleTimer) clearTimeout(settleTimer);
-        settleTimer = setTimeout(correctLoop, 150);
-      }
-      function correctLoop() {
-        if (down) return;                       // never jump mid-drag
-        var p = nearestPhysical();
-        if (p < N || p >= 2 * N) {              // centred on a clone
-          var twin = all[all[p]._logical + N];  // real card in middle group
-          var delta = deck.scrollLeft - (centerOf(all[p]) - deck.clientWidth / 2);
-          setScrollLeft((centerOf(twin) - deck.clientWidth / 2) + delta, false);
-          paint();
-        }
-      }
-
-      function onScroll() {
-        interacted = true;
-        if (nudgeTimer) { clearTimeout(nudgeTimer); nudgeTimer = null; }
-        kick();
-        scheduleSettle();
-      }
-      deck.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', function () { paint(); alignTitle(); });
-
-      // start centred on the first real card
-      deck.scrollLeft = targetFor(all[N]);
-      applyVisual();
-      if (titleEl) titleEl.textContent = titles[0];
-      alignTitle();
-      setTimeout(function () { deck.classList.add('ready'); if (dotsWrap) dotsWrap.classList.add('ready'); }, 80);
-
-      var interacted = false;
-      var nudgeTimer = null;
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function centerCard(i, smooth) {
-        var to = targetFor(all[i]);
-        if (smooth === false) { deck.scrollLeft = to; applyVisual(); correctLoop(); }
-        else glideTo(to);
-      }
-
-      // custom eased glide — we drive scrollLeft ourselves so the slide reads
-      // as one continuous motion (current card leaving, next card arriving)
-      var glideRAF = null;
-      function cancelGlide() {
-        if (glideRAF) { cancelAnimationFrame(glideRAF); glideRAF = null; }
-      }
-      function glideTo(to, dur) {
-        cancelGlide();
-        var from = deck.scrollLeft;
-        var dist = Math.abs(to - from);
-        if (dist < 0.5) { deck.scrollLeft = to; applyVisual(); correctLoop(); return; }
-        // duration scales with distance so a short nudge isn't slow, a full
-        // card glide isn't abrupt — clamped to a premium 320–520ms window
-        dur = dur || Math.max(320, Math.min(520, 220 + dist * 0.45));
-        var start = performance.now();
-        function step(now) {
-          var p = Math.min(1, (now - start) / dur);
-          var e = 1 - Math.pow(1 - p, 3);            // easeOutCubic
-          deck.scrollLeft = from + (to - from) * e;
-          applyVisual();
-          if (p < 1) glideRAF = requestAnimationFrame(step);
-          else { glideRAF = null; correctLoop(); }
-        }
-        glideRAF = requestAnimationFrame(step);
-      }
-      function stopHint() {
-        interacted = true;
-        if (nudgeTimer) { clearTimeout(nudgeTimer); nudgeTimer = null; }
-      }
-
-      // tapping a side (non-centre) card brings it to centre
-      all.forEach(function (card, i) {
-        card.addEventListener('click', function (e) {
-          if (justDragged) { e.preventDefault(); return; }   // a drag, not a tap
-          if (card.classList.contains('is-center')) return;   // let the CTA work
-          e.preventDefault();
-          stopHint();
-          centerCard(i, true);
-        });
-      });
-
-      // drag-to-scroll for BOTH mouse and touch — the finger drives scrollLeft
-      // 1:1 (current + neighbour cards move together), then a velocity-aware
-      // eased glide finishes the slide on release
-      var down = false, dragged = false, justDragged = false, sx = 0, sLeft = 0;
-      var lastX = 0, lastT = 0, vel = 0;
-      deck.addEventListener('pointerdown', function (e) {
-        cancelGlide();
-        down = true; dragged = false;
-        sx = e.clientX; sLeft = deck.scrollLeft;
-        lastX = e.clientX; lastT = performance.now(); vel = 0;
-        try { deck.setPointerCapture(e.pointerId); } catch (err) {}
-        stopHint();
-      });
-      deck.addEventListener('pointermove', function (e) {
-        if (!down) return;
-        var dx = e.clientX - sx;
-        if (!dragged && Math.abs(dx) > 4) { dragged = true; deck.classList.add('grabbing'); }
-        if (dragged) {
-          deck.scrollLeft = sLeft - dx;
-          var now = performance.now(), dt = now - lastT;
-          if (dt > 0) {
-            // px/ms, smoothed — positive = finger moving right
-            vel = 0.7 * ((e.clientX - lastX) / dt) + 0.3 * vel;
-            lastX = e.clientX; lastT = now;
-          }
-          kick();
-          e.preventDefault();
-        }
-      });
-      function endDrag(e) {
-        if (!down) return;
-        down = false;
-        deck.classList.remove('grabbing');
-        if (dragged) {
-          justDragged = true;
-          setTimeout(function () { justDragged = false; }, 0);
-          // a decisive flick advances one card in the fling direction;
-          // a gentle drag settles to whichever card is nearest centre
-          var idx = nearestPhysical();
-          var FLING = 0.35;                          // px/ms
-          if (vel < -FLING) idx += 1;                // flung left → next
-          else if (vel > FLING) idx -= 1;            // flung right → prev
-          idx = Math.max(0, Math.min(all.length - 1, idx));
-          centerCard(idx, true);
-        }
-      }
-      deck.addEventListener('pointerup', endDrag);
-      deck.addEventListener('pointercancel', endDrag);
-
-      // one-time hint: a gentle nudge so it's obvious the deck slides
-      function scheduleNudge() {
-        if (reduce) return;
-        nudgeTimer = setTimeout(function () {
-          if (interacted) return;
-          var x0 = deck.scrollLeft;
-          glideTo(x0 + 64, 360);
-          setTimeout(function () { if (!interacted) glideTo(x0, 380); }, 420);
-        }, 1100);
-      }
-      if (document.body.classList.contains('armed')) scheduleNudge();
-      else document.addEventListener('ferra:armed', scheduleNudge, { once: true });
-    })();
-  </script>
 
   <style>
     #fs-hint {
@@ -1421,8 +746,9 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v17';
-      var verLine = '<div class="ver">Build <b>' + PREVIEW_VERSION + '</b></div>';
+      var PREVIEW_VERSION = 'v18';
+      var DESIGN_VERSION = 'v3';
+      var verLine = '<div class="ver">Design <b>' + DESIGN_VERSION + '</b> · Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
         box.innerHTML =
           'Tap to start <span class="dot">.</span>' +
@@ -1461,9 +787,6 @@
       function arm() {
         if (document.body.classList.contains('armed')) return;
         document.body.classList.add('armed');
-        var v = document.querySelector('.turtle-coach');
-        if (v) { try { v.play().catch(function(){}); } catch (e) {} }
-        document.dispatchEvent(new Event('ferra:armed'));
       }
       function dismiss() {
         hint.classList.add('hide');
