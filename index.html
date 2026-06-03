@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ferra" />
-  <title>Ferra · Home v3 — build v20</title>
+  <title>Ferra · Home v3 — build v21</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -404,6 +404,17 @@
     .exercise-deck {
       position: relative;
     }
+    .ex-heading {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1.15;
+      color: #fff;
+      text-align: center;
+      margin: 0 0 12px;
+      letter-spacing: -0.015em;
+      transition: opacity 180ms ease;
+    }
     /* All cards share the same slot; only the active one is visible */
     .exercise-deck .exercise-card {
       display: none;
@@ -729,6 +740,7 @@
 
           <!-- Exercise deck (3 cards, navigated by chevrons or swipe) -->
           <div class="exercise-deck" id="exDeck">
+            <h2 class="ex-heading" id="exHeading">Exercise of the Day</h2>
             <article class="exercise-card active">
               <div class="img">
                 <img src="assets/lat-pulldown.png" alt="Lat pulldown" />
@@ -851,7 +863,7 @@
       var ua = navigator.userAgent || '';
       var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       var inStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
-      var PREVIEW_VERSION = 'v20';
+      var PREVIEW_VERSION = 'v21';
       var DESIGN_VERSION = 'v3';
       var verLine = '<div class="ver">Design <b>' + DESIGN_VERSION + '</b> · Build <b>' + PREVIEW_VERSION + '</b></div>';
       if (inStandalone) {
@@ -913,14 +925,24 @@
       var dots = deck.querySelectorAll('.ex-dots .d');
       var prev = document.getElementById('exPrev');
       var next = document.getElementById('exNext');
+      var heading = document.getElementById('exHeading');
+      var titles = ['Exercise of the Day', '15min Workout', 'Custom Workout'];
       var idx = 0;
 
       function show(i) {
-        idx = Math.max(0, Math.min(cards.length - 1, i));
+        var nextIdx = Math.max(0, Math.min(cards.length - 1, i));
+        if (nextIdx === idx && heading.textContent === titles[idx]) return;
+        idx = nextIdx;
         cards.forEach(function (c, j) { c.classList.toggle('active', j === idx); });
         dots.forEach(function (d, j) { d.classList.toggle('active', j === idx); });
         prev.classList.toggle('hidden', idx === 0);
         next.classList.toggle('hidden', idx === cards.length - 1);
+        // crossfade the heading text
+        heading.style.opacity = '0';
+        setTimeout(function () {
+          heading.textContent = titles[idx] || heading.textContent;
+          heading.style.opacity = '1';
+        }, 160);
       }
 
       function stopPulse() { next.style.animation = 'none'; }
